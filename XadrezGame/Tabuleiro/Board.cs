@@ -15,5 +15,11 @@
 			_pieces = new Piece[line, colunm];
 		}
 
+
+		public Piece GetPiece (int line, int colunm) 
+		{
+			return _pieces[line, colunm];
+		}
+
 	}
 }

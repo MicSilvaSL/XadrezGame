@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace XadrezGame.Tabuleiro
 {
-	internal class Piece
+	public class Piece
 	{
 		public Position PiecePosition { get; set; }
 		public PieceColor Color { get; set; }

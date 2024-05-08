@@ -6,9 +6,10 @@ namespace XadrezGame
 	{
 		static void Main(string[] args)
 		{
-			Position p = new Position(3, 4);
+			Board b = new Board(8, 8);
 
-			Console.WriteLine(p);
+
+			ScreenView.ShowBoard(b);
 		}
 	}
 }

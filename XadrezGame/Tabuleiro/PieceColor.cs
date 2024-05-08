@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace XadrezGame.Tabuleiro
 {
-	enum PieceColor
+	public enum PieceColor
 	{
 		Black,
 		White,
