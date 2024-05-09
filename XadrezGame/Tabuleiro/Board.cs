@@ -16,9 +16,15 @@
 		}
 
 
-		public Piece GetPiece (int line, int colunm) 
+		public Piece GetPiece(int line, int colunm) 
 		{
 			return _pieces[line, colunm];
+		}
+
+		public void SetPieceOnBoard(Piece p, Position pos) 
+		{
+			_pieces[pos.Line, pos.Column] = p;
+			p.PiecePosition = pos;
 		}
 
 	}

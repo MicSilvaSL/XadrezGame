@@ -14,12 +14,12 @@ namespace XadrezGame.Tabuleiro
 		public Board CurrentBoard { get; protected set; }
 
 
-		public Piece(Position pos, PieceColor color, Board board) 
+		public Piece( PieceColor color, Board board) 
 		{
-			this.PiecePosition = pos;
 			this.Color = color;
 			this.CurrentBoard = board;
-
+			
+			PiecePosition = null;
 			AmountMovement = 0;
 		}
 
