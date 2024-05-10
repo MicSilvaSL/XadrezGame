@@ -9,11 +9,22 @@ namespace XadrezGame
 		{
 			Board b = new Board(8, 8);
 
-			b.SetPieceOnBoard(new King(b, PieceColor.Black), new Position(0, 0));
-			b.SetPieceOnBoard(new Rook(b, PieceColor.Black), new Position(1, 3));
-			b.SetPieceOnBoard(new Rook(b, PieceColor.Black), new Position(2, 7));
+			try 
+			{
+				b.SetPieceOnBoard(new King(b, PieceColor.Black), new Position(0, 0));
+				b.SetPieceOnBoard(new Rook(b, PieceColor.Black), new Position(1, 3));
+				b.SetPieceOnBoard(new Rook(b, PieceColor.Black), new Position(2, 7));
 
-			ScreenView.ShowBoard(b);
+				ScreenView.ShowBoard(b);
+
+			} 
+			catch (TabuleiroException tab) 
+			{
+				Console.WriteLine(tab.Message);
+			}
+			
+
+			
 		}
 	}
 }
