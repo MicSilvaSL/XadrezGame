@@ -11,12 +11,9 @@ namespace XadrezGame
 
 			try 
 			{
-				b.SetPieceOnBoard(new King(b, PieceColor.Black), new Position(0, 0));
-				b.SetPieceOnBoard(new Rook(b, PieceColor.Black), new Position(1, 3));
-				b.SetPieceOnBoard(new Rook(b, PieceColor.Black), new Position(2, 7));
-
-				ScreenView.ShowBoard(b);
-
+				b.SetPieceOnBoard(new King(b, PieceColor.White), new Position(0, 0));
+				b.SetPieceOnBoard(new Rook(b, PieceColor.Red), new Position(1, 3));
+				b.SetPieceOnBoard(new Rook(b, PieceColor.Blue), new Position(2, 7));
 			} 
 			catch (TabuleiroException tab) 
 			{
@@ -24,7 +21,7 @@ namespace XadrezGame
 			}
 			
 
-			
+			ScreenView.ShowBoard(b);
 		}
 	}
 }
