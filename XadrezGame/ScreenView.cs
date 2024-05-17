@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using XadrezGame.Tabuleiro;
+using XadrezGame.Xadrez;
 
 namespace XadrezGame
 {
@@ -14,6 +15,7 @@ namespace XadrezGame
 			for (int i = 0; i < board.Line; i++)
 			{
 				Console.Write(8 - i + " ");
+
 				for (int j = 0; j < board.Colunm; j++)
 				{
 
@@ -23,7 +25,7 @@ namespace XadrezGame
 					}
 					else
 					{
-						PrintPiece(board.GetPiece(i,j));
+						PrintColorPiece(board.GetPiece(i,j));
 					}
 
 
@@ -37,7 +39,7 @@ namespace XadrezGame
 
 		}
 
-		public static void PrintPiece(Piece piece) 
+		public static void PrintColorPiece(Piece piece) 
 		{
 			ConsoleColor aux = Console.ForegroundColor;
 
@@ -62,6 +64,17 @@ namespace XadrezGame
 					Console.Write(piece.ToString());
 					break;
 			}
+		}
+
+
+		public static XadrexPosition ReadXadrezPosition() 
+		{
+			string readPosition = Console.ReadLine();
+			char column = readPosition[0];
+			int line = int.Parse(readPosition[1] + "");
+
+			return new XadrexPosition(column, line);
+
 		}
 
 	}

@@ -25,11 +25,27 @@
 			return GetPiece(pos.Line, pos.Column);
 		}
 
+		public Piece RemovePiece(Position pos) 
+		{
+			if (GetPiece(pos) == null) 
+			{
+				return null;
+			}
+
+			Piece remainder = GetPiece(pos);
+			remainder.PiecePosition = null;
+			_pieces[pos.Line, pos.Column] = null;
+
+			return remainder;
+
+		}
+
+
 		public void SetPieceOnBoard(Piece p, Position pos) 
 		{
 			if (HasPieceOnPosition(pos)) 
 			{
-				throw new TabuleiroException("Ja existe uma peca nessa posição");
+				throw new BoardException("Ja existe uma peca nessa posição");
 			}
 
 			_pieces[pos.Line, pos.Column] = p;
@@ -48,7 +64,7 @@
 		{
 			if (!IsValidPostion(pos)) 
 			{
-				throw new TabuleiroException("Posição invalida");
+				throw new BoardException("Posição invalida");
 			}
 		}
 

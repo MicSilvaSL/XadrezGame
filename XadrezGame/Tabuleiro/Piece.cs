@@ -23,5 +23,7 @@ namespace XadrezGame.Tabuleiro
 			AmountMovement = 0;
 		}
 
+		public void IncrementMovement() => AmountMovement++;
+
 	}
 }
