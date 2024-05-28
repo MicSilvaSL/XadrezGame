@@ -18,7 +18,12 @@
 
 		public Piece GetPiece(int line, int colunm) 
 		{
-			return _pieces[line, colunm];
+			Piece p = null;
+
+			if (IsValidPostion(new Position(line, colunm)))
+				p = _pieces[line, colunm];
+
+			return p;
 		}
 		public Piece GetPiece(Position pos)
 		{

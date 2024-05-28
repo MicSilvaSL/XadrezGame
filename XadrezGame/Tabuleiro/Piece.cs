@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace XadrezGame.Tabuleiro
 {
-	public class Piece
+	public abstract class Piece
 	{
 		public Position PiecePosition { get; set; }
 		public PieceColor Color { get; set; }
@@ -14,16 +14,18 @@ namespace XadrezGame.Tabuleiro
 		public Board CurrentBoard { get; protected set; }
 
 
-		public Piece( PieceColor color, Board board) 
+		public Piece(PieceColor color, Board board)
 		{
 			this.Color = color;
 			this.CurrentBoard = board;
-			
+
 			PiecePosition = null;
 			AmountMovement = 0;
 		}
 
 		public void IncrementMovement() => AmountMovement++;
+
+		public abstract bool[,] PossibleMovements();
 
 	}
 }

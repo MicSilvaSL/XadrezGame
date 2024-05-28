@@ -18,6 +18,12 @@ namespace XadrezGame.Tabuleiro
 			this.Column = column;
 		}
 
+		public void SetPosition(int line, int column) 
+		{
+			this.Line = line;
+			this.Column = column;
+		}
+
 
 		public override string ToString()
 		{

@@ -21,6 +21,11 @@ namespace XadrezGame
 
 					Console.WriteLine("Set origin:");
 					Position orign = ScreenView.ReadXadrezPosition().ToPosition();
+					
+					bool[,] validPositions = match.Board.GetPiece(orign).PossibleMovements();
+					
+					Console.Clear();
+					ScreenView.ShowBoard(match.Board, validPositions);
 
 					Console.WriteLine("Set destination:");
 					Position destination = ScreenView.ReadXadrezPosition().ToPosition();
