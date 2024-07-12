@@ -24,6 +24,7 @@ namespace XadrezGame.Tabuleiro
 		}
 
 		public void IncrementMovement() => AmountMovement++;
+		public void DecrementMovement() => AmountMovement--;
 
 		public abstract bool[,] PossibleMovements();
 

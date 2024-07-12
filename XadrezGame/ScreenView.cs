@@ -10,6 +10,57 @@ namespace XadrezGame
 {
 	internal class ScreenView
 	{
+
+		public static void PrintMatch(XadrezMatch match) 
+		{
+			ShowBoard(match.Board);
+
+			Console.WriteLine();
+			
+			PrintCapturePieces(match);
+
+			Console.WriteLine();
+
+			Console.WriteLine("Turn: " + match.Turn);
+			Console.WriteLine("Waiting player: " + match.CurrentPlayerColor);
+
+
+		}
+
+		private static void PrintCapturePieces(XadrezMatch match) 
+		{
+			ConsoleColor aux = Console.ForegroundColor;
+
+			Console.WriteLine("Captured Pieces:");
+			Console.Write("Red: ");
+			
+			Console.ForegroundColor = ConsoleColor.Red;
+			PrintCaptureSetPieces(match.PiecesCaptured(PieceColor.Red));
+			Console.ForegroundColor = aux;
+
+			Console.WriteLine();
+
+			Console.Write("Blue: ");
+
+			Console.ForegroundColor = ConsoleColor.Blue;
+			PrintCaptureSetPieces(match.PiecesCaptured(PieceColor.Blue));
+			Console.ForegroundColor = aux;
+			
+
+		}
+
+		private static void PrintCaptureSetPieces(HashSet<Piece> pieces) 
+		{
+			Console.Write("[");
+
+			foreach( Piece p in pieces) 
+			{
+				Console.Write(p + " ");
+			}
+
+			Console.Write("]");
+		}
+
 		public static void ShowBoard(Board board)
 		{
 			for (int i = 0; i < board.Line; i++)

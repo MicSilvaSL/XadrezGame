@@ -18,12 +18,8 @@ namespace XadrezGame
 					try 
 					{
 						Console.Clear();
-						ScreenView.ShowBoard(match.Board);
 
-						Console.WriteLine();
-
-						Console.WriteLine("Turn: " + match.Turn);
-						Console.WriteLine("Waiting player: " + match.CurrentPlayerColor);
+						ScreenView.PrintMatch(match);
 
 						Console.WriteLine();
 
