@@ -14,24 +14,41 @@ namespace XadrezGame
 
 				while (!match.IsFinishedMatch) 
 				{
-					Console.Clear();
-					ScreenView.ShowBoard(match.Board);
+
+					try 
+					{
+						Console.Clear();
+						ScreenView.ShowBoard(match.Board);
+
+						Console.WriteLine();
+
+						Console.WriteLine("Turn: " + match.Turn);
+						Console.WriteLine("Waiting player: " + match.CurrentPlayerColor);
+
+						Console.WriteLine();
+
+						Console.Write("Set origin: ");
+						Position orign = ScreenView.ReadXadrezPosition().ToPosition();
+						match.ValidOrignMovement(orign);
+
+						bool[,] validPositions = match.Board.GetPiece(orign).PossibleMovements();
+
+						Console.Clear();
+						ScreenView.ShowBoard(match.Board, validPositions);
+
+						Console.WriteLine();
+						Console.Write("Set destination: ");
+						Position destination = ScreenView.ReadXadrezPosition().ToPosition();
+						match.ValidDestinationMovement(orign, destination);
+
+						match.DoTurn(orign, destination);
+					} 
+					catch(BoardException e) 
+					{
+						Console.WriteLine(e.Message);
+						Console.ReadLine();
+					}
 					
-					Console.WriteLine();
-
-					Console.WriteLine("Set origin:");
-					Position orign = ScreenView.ReadXadrezPosition().ToPosition();
-					
-					bool[,] validPositions = match.Board.GetPiece(orign).PossibleMovements();
-					
-					Console.Clear();
-					ScreenView.ShowBoard(match.Board, validPositions);
-
-					Console.WriteLine("Set destination:");
-					Position destination = ScreenView.ReadXadrezPosition().ToPosition();
-
-					match.ExecuteMovement(orign, destination);
-
 				}
 
 

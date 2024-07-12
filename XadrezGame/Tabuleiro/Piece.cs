@@ -27,5 +27,27 @@ namespace XadrezGame.Tabuleiro
 
 		public abstract bool[,] PossibleMovements();
 
+		public bool ExistPossibleMovements() 
+		{
+			bool[,] movs = PossibleMovements();
+
+			for (int i = 0; i < CurrentBoard.Line; i++) 
+			{
+				for (int j = 0; j < CurrentBoard.Colunm; j++) 
+				{
+					if (movs[i, j])
+						return true;
+				}
+			}
+
+			return false;
+
+		}
+
+		public bool CanMoveTo(Position position) 
+		{
+			return PossibleMovements()[position.Line, position.Column];
+		}
+
 	}
 }
