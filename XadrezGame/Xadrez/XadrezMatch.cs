@@ -40,8 +40,13 @@ namespace XadrezGame.Xadrez
 		{
 			PlacePiece(new Rook(Board, PieceColor.Red), 'h', 7);
 			PlacePiece(new Rook(Board, PieceColor.Red), 'c', 1);
+			PlacePiece(new Pawn(Board, PieceColor.Red), 'c', 2);
+			PlacePiece(new Bishop(Board, PieceColor.Red), 'd', 2);
+			PlacePiece(new Queen(Board, PieceColor.Red), 'f', 1);
+			PlacePiece(new Knight(Board, PieceColor.Red), 'f', 4);
 			PlacePiece(new King(Board, PieceColor.Red), 'd', 1);
 
+			PlacePiece(new Rook(Board, PieceColor.Blue), 'c', 6);
 			PlacePiece(new Rook(Board, PieceColor.Blue), 'b', 8);
 			PlacePiece(new King(Board, PieceColor.Blue), 'a', 8);
 

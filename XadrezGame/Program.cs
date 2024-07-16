@@ -38,6 +38,7 @@ namespace XadrezGame
 						match.ValidDestinationMovement(orign, destination);
 
 						match.DoTurn(orign, destination);
+
 					} 
 					catch(BoardException e) 
 					{
@@ -45,14 +46,12 @@ namespace XadrezGame
 						Console.ReadLine();
 					}
 
-					Console.Clear();
-					ScreenView.PrintMatch(match);
-
-
 				}
 
+				//Console.Clear();
+				//ScreenView.PrintMatch(match);
 
-				
+
 			} 
 			catch (BoardException tab) 
 			{
