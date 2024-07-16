@@ -38,19 +38,12 @@ namespace XadrezGame.Xadrez
 
 		private void InstantiatePieces()
 		{
+			PlacePiece(new Rook(Board, PieceColor.Red), 'h', 7);
 			PlacePiece(new Rook(Board, PieceColor.Red), 'c', 1);
-			PlacePiece(new Rook(Board, PieceColor.Red), 'c', 2);
-			PlacePiece(new Rook(Board, PieceColor.Red), 'd', 2);
-			PlacePiece(new Rook(Board, PieceColor.Red), 'e', 2);
-			PlacePiece(new Rook(Board, PieceColor.Red), 'e', 1);
 			PlacePiece(new King(Board, PieceColor.Red), 'd', 1);
 
-			PlacePiece(new Rook(Board, PieceColor.Blue), 'c', 7);
-			PlacePiece(new Rook(Board, PieceColor.Blue), 'c', 8);
-			PlacePiece(new Rook(Board, PieceColor.Blue), 'd', 7);
-			PlacePiece(new Rook(Board, PieceColor.Blue), 'e', 7);
-			PlacePiece(new Rook(Board, PieceColor.Blue), 'e', 8);
-			PlacePiece(new King(Board, PieceColor.Blue), 'd', 8);
+			PlacePiece(new Rook(Board, PieceColor.Blue), 'b', 8);
+			PlacePiece(new King(Board, PieceColor.Blue), 'a', 8);
 
 		}
 
@@ -61,7 +54,7 @@ namespace XadrezGame.Xadrez
 			if (IsOnCheck(CurrentPlayerColor)) 
 			{
 				UndoMovement(origin, destination, pieceCaptured);
-				throw new BoardException("Voce não pode se colocar em xeque");
+				throw new BoardException("You can't put yourself in check");
 			}
 
 			if (IsOnCheck(GetOpositeColor(CurrentPlayerColor)))
@@ -69,8 +62,16 @@ namespace XadrezGame.Xadrez
 			else
 				Check = false;
 
-			Turn++;
-			ChangePlayerColor();
+			if (IsOnCheckMate(GetOpositeColor(CurrentPlayerColor))) 
+			{
+				IsFinishedMatch = true;
+			}
+			else 
+			{
+				Turn++;
+				ChangePlayerColor();
+			}
+
 		}
 
 		public void ChangePlayerColor()
@@ -143,6 +144,44 @@ namespace XadrezGame.Xadrez
 			}
 
 			return false;
+		}
+
+		public bool IsOnCheckMate(PieceColor color) 
+		{
+			if (!IsOnCheck(color)) 
+			{
+				return false;
+			}
+
+			foreach(Piece p in PiecesInGame(color)) 
+			{
+				bool[,] moves = p.PossibleMovements();
+
+				for (int x = 0; x < Board.Line; x++)
+				{
+					for (int y = 0; y < Board.Colunm; y++)
+					{
+						if (moves[x, y])
+						{
+							Position origin = p.PiecePosition;
+							Position destination = new Position(x, y);
+							Piece captured = ExecuteMovement(p.PiecePosition, destination);
+							bool isInCheck = IsOnCheck(color);
+							UndoMovement(origin, destination, captured);
+
+                            if (!isInCheck)
+                            {
+								return false;
+                            }
+                        }
+
+					}
+				}
+
+			}
+
+
+			return true;
 		}
 
 		public HashSet<Piece> PiecesCaptured(PieceColor pieceColor) 

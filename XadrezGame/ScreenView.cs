@@ -21,12 +21,20 @@ namespace XadrezGame
 
 			Console.WriteLine();
 
-			Console.WriteLine("Turn: " + match.Turn);
-			Console.WriteLine("Waiting player: " + match.CurrentPlayerColor);
-
-			if (match.IsOnCheck(PieceColor.Blue)) 
+			if (!match.IsFinishedMatch) 
 			{
-				Console.WriteLine("Is on Check");
+				Console.WriteLine("Turn: " + match.Turn);
+				Console.WriteLine("Waiting player: " + match.CurrentPlayerColor);
+
+				if (match.IsOnCheck(PieceColor.Blue))
+				{
+					Console.WriteLine("Is on Check");
+				}
+			}
+			else 
+			{
+				Console.WriteLine("Finish match");
+				Console.WriteLine("Color: " + match.CurrentPlayerColor.ToString() + " is the Winner!!");
 			}
 
 

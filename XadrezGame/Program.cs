@@ -44,7 +44,11 @@ namespace XadrezGame
 						Console.WriteLine(e.Message);
 						Console.ReadLine();
 					}
-					
+
+					Console.Clear();
+					ScreenView.PrintMatch(match);
+
+
 				}
 
 
