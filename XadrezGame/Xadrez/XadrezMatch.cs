@@ -133,7 +133,7 @@ namespace XadrezGame.Xadrez
 
 			if (r == null) throw new BoardException("Não existe rei da cor "  + color + " ??");
 
-			foreach(Piece p in PiecesInGame(color)) 
+			foreach(Piece p in PiecesInGame(GetOpositeColor(color))) 
 			{
 				bool[,] movements = p.PossibleMovements();
 				if (movements[r.PiecePosition.Line, r.PiecePosition.Column]) 
