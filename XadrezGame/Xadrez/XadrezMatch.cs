@@ -30,7 +30,7 @@ namespace XadrezGame.Xadrez
 
 		}
 
-		public void PlacePiece(Piece piece, char column, int line)
+		public void PlacePiece( char column, int line, Piece piece)
 		{
 			Board.SetPieceOnBoard(piece, new XadrexPosition(column, line).ToPosition());
 			_allPieces.Add(piece);
@@ -38,17 +38,42 @@ namespace XadrezGame.Xadrez
 
 		private void InstantiatePieces()
 		{
-			PlacePiece(new Rook(Board, PieceColor.Red), 'h', 7);
-			PlacePiece(new Rook(Board, PieceColor.Red), 'c', 1);
-			PlacePiece(new Pawn(Board, PieceColor.Red), 'c', 2);
-			PlacePiece(new Bishop(Board, PieceColor.Red), 'd', 2);
-			PlacePiece(new Queen(Board, PieceColor.Red), 'f', 1);
-			PlacePiece(new Knight(Board, PieceColor.Red), 'f', 4);
-			PlacePiece(new King(Board, PieceColor.Red), 'd', 1);
+			PlacePiece('a', 1, new Rook(Board, PieceColor.Blue));
+			//PlacePiece('b', 1, new Knight(Board, PieceColor.Blue));
+			//PlacePiece('c', 1, new Bishop(Board, PieceColor.Blue));
+			//PlacePiece('d', 1, new Queen(Board, PieceColor.Blue));
+			PlacePiece('e', 1, new King(Board, PieceColor.Blue, this));
+			PlacePiece('f', 1, new Bishop(Board, PieceColor.Blue));
+			PlacePiece('g', 1, new Knight(Board, PieceColor.Blue));
+			PlacePiece('h', 1, new Rook(Board, PieceColor.Blue));
 
-			PlacePiece(new Rook(Board, PieceColor.Blue), 'c', 6);
-			PlacePiece(new Rook(Board, PieceColor.Blue), 'b', 8);
-			PlacePiece(new King(Board, PieceColor.Blue), 'a', 8);
+			PlacePiece('a', 2, new Pawn(Board, PieceColor.Blue));
+			PlacePiece('b', 2, new Pawn(Board, PieceColor.Blue));
+			PlacePiece('c', 2, new Pawn(Board, PieceColor.Blue));
+			PlacePiece('d', 2, new Pawn(Board, PieceColor.Blue));
+			PlacePiece('e', 2, new Pawn(Board, PieceColor.Blue));
+			PlacePiece('f', 2, new Pawn(Board, PieceColor.Blue));
+			PlacePiece('g', 2, new Pawn(Board, PieceColor.Blue));
+			PlacePiece('h', 2, new Pawn(Board, PieceColor.Blue));
+
+
+			PlacePiece('a', 8, new Rook(Board, PieceColor.Red));
+			PlacePiece('b', 8, new Knight(Board, PieceColor.Red));
+			PlacePiece('c', 8, new Bishop(Board, PieceColor.Red));
+			PlacePiece('d', 8, new Queen(Board, PieceColor.Red));
+			PlacePiece('e', 8, new King(Board, PieceColor.Red, this));
+			PlacePiece('f', 8, new Bishop(Board, PieceColor.Red));
+			PlacePiece('g', 8, new Knight(Board, PieceColor.Red));
+			PlacePiece('h', 8, new Rook(Board, PieceColor.Red));
+
+			PlacePiece('a', 7, new Pawn(Board, PieceColor.Red));
+			PlacePiece('b', 7, new Pawn(Board, PieceColor.Red));
+			PlacePiece('c', 7, new Pawn(Board, PieceColor.Red));
+			PlacePiece('d', 7, new Pawn(Board, PieceColor.Red));
+			PlacePiece('e', 7, new Pawn(Board, PieceColor.Red));
+			PlacePiece('f', 7, new Pawn(Board, PieceColor.Red));
+			PlacePiece('g', 7, new Pawn(Board, PieceColor.Red));
+			PlacePiece('h', 7, new Pawn(Board, PieceColor.Red));
 
 		}
 
@@ -99,6 +124,30 @@ namespace XadrezGame.Xadrez
 				_capturedPieces.Add(capturedPiece);
 			}
 
+			// #jogadaespecial Roque pequeno
+			if (piece is King && destination.Column == origin.Column + 2) 
+			{
+				Position originHook = new Position(origin.Line, origin.Column + 3);
+				Position destinationHook = new Position(origin.Line, origin.Column + 1);
+
+				Piece hook = Board.RemovePiece(originHook);
+				hook.IncrementMovement();
+				Board.SetPieceOnBoard(hook, destinationHook);
+
+			}
+
+			// #jogadaespecial Roque grande
+			if (piece is King && destination.Column == origin.Column - 2)
+			{
+				Position originHook = new Position(origin.Line, origin.Column - 4);
+				Position destinationHook = new Position(origin.Line, origin.Column - 1);
+
+				Piece hook = Board.RemovePiece(originHook);
+				hook.IncrementMovement();
+				Board.SetPieceOnBoard(hook, destinationHook);
+
+			}
+
 			return capturedPiece;
 
 		}
@@ -115,6 +164,29 @@ namespace XadrezGame.Xadrez
 			}
 
 			Board.SetPieceOnBoard(destinationPiece, origin);
+
+			if (destinationPiece is King && destination.Column == origin.Column + 2)
+			{
+				Position originHook = new Position(origin.Line, origin.Column + 3);
+				Position destinationHook = new Position(origin.Line, origin.Column + 1);
+
+				Piece hook = Board.RemovePiece(destinationHook);
+				hook.DecrementMovement();
+				Board.SetPieceOnBoard(hook, originHook);
+
+			}
+
+			// #jogadaespecial Roque grande
+			if (destinationPiece is King && destination.Column == origin.Column - 2)
+			{
+				Position originHook = new Position(origin.Line, origin.Column - 4);
+				Position destinationHook = new Position(origin.Line, origin.Column - 1);
+
+				Piece hook = Board.RemovePiece(destinationHook);
+				hook.DecrementMovement();
+				Board.SetPieceOnBoard(hook, originHook);
+
+			}
 
 		}
 

@@ -38,7 +38,7 @@ namespace XadrezGame.Xadrez
 
 			Position p = new Position(0, 0);
 
-			if (base.Color == PieceColor.Red) 
+			if (base.Color == PieceColor.Blue) 
 			{
 				p.SetPosition(base.PiecePosition.Line - 1, base.PiecePosition.Column);
 				if (base.CurrentBoard.IsValidPostion(p) && FreeSpace(p)) 
