@@ -70,7 +70,7 @@ namespace XadrezGame.Xadrez
 			PlacePiece('h', 8, new Rook(Board, PieceColor.Red));
 
 			PlacePiece('a', 7, new Pawn(Board, PieceColor.Red, this));
-			PlacePiece('b', 6, new Pawn(Board, PieceColor.Red, this));
+			PlacePiece('b', 7, new Pawn(Board, PieceColor.Red, this));
 			PlacePiece('c', 7, new Pawn(Board, PieceColor.Red, this));
 			PlacePiece('d', 7, new Pawn(Board, PieceColor.Red, this));
 			PlacePiece('e', 7, new Pawn(Board, PieceColor.Red, this));
