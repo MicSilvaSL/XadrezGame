@@ -18,6 +18,8 @@ namespace XadrezGame.Xadrez
 
 		public bool Check { get; private set; }
 
+		public Piece VulnerableEnPassant { get; private set; }
+
 		public XadrezMatch()
 		{
 			Board = new Board(8, 8);
@@ -25,6 +27,7 @@ namespace XadrezGame.Xadrez
 			CurrentPlayerColor = PieceColor.Red;
 			_allPieces = new HashSet<Piece>();
 			_capturedPieces = new HashSet<Piece>();
+			VulnerableEnPassant = null;
 
 			InstantiatePieces();
 
@@ -39,22 +42,22 @@ namespace XadrezGame.Xadrez
 		private void InstantiatePieces()
 		{
 			PlacePiece('a', 1, new Rook(Board, PieceColor.Blue));
-			//PlacePiece('b', 1, new Knight(Board, PieceColor.Blue));
-			//PlacePiece('c', 1, new Bishop(Board, PieceColor.Blue));
-			//PlacePiece('d', 1, new Queen(Board, PieceColor.Blue));
+			PlacePiece('b', 1, new Knight(Board, PieceColor.Blue));
+			PlacePiece('c', 1, new Bishop(Board, PieceColor.Blue));
+			PlacePiece('d', 1, new Queen(Board, PieceColor.Blue));
 			PlacePiece('e', 1, new King(Board, PieceColor.Blue, this));
 			PlacePiece('f', 1, new Bishop(Board, PieceColor.Blue));
 			PlacePiece('g', 1, new Knight(Board, PieceColor.Blue));
 			PlacePiece('h', 1, new Rook(Board, PieceColor.Blue));
 
-			PlacePiece('a', 2, new Pawn(Board, PieceColor.Blue));
-			PlacePiece('b', 2, new Pawn(Board, PieceColor.Blue));
-			PlacePiece('c', 2, new Pawn(Board, PieceColor.Blue));
-			PlacePiece('d', 2, new Pawn(Board, PieceColor.Blue));
-			PlacePiece('e', 2, new Pawn(Board, PieceColor.Blue));
-			PlacePiece('f', 2, new Pawn(Board, PieceColor.Blue));
-			PlacePiece('g', 2, new Pawn(Board, PieceColor.Blue));
-			PlacePiece('h', 2, new Pawn(Board, PieceColor.Blue));
+			PlacePiece('a', 2, new Pawn(Board, PieceColor.Blue, this));
+			PlacePiece('b', 2, new Pawn(Board, PieceColor.Blue, this));
+			PlacePiece('c', 2, new Pawn(Board, PieceColor.Blue, this));
+			PlacePiece('d', 2, new Pawn(Board, PieceColor.Blue, this));
+			PlacePiece('e', 2, new Pawn(Board, PieceColor.Blue, this));
+			PlacePiece('f', 2, new Pawn(Board, PieceColor.Blue, this));
+			PlacePiece('g', 2, new Pawn(Board, PieceColor.Blue, this));
+			PlacePiece('h', 2, new Pawn(Board, PieceColor.Blue, this));
 
 
 			PlacePiece('a', 8, new Rook(Board, PieceColor.Red));
@@ -66,14 +69,14 @@ namespace XadrezGame.Xadrez
 			PlacePiece('g', 8, new Knight(Board, PieceColor.Red));
 			PlacePiece('h', 8, new Rook(Board, PieceColor.Red));
 
-			PlacePiece('a', 7, new Pawn(Board, PieceColor.Red));
-			PlacePiece('b', 7, new Pawn(Board, PieceColor.Red));
-			PlacePiece('c', 7, new Pawn(Board, PieceColor.Red));
-			PlacePiece('d', 7, new Pawn(Board, PieceColor.Red));
-			PlacePiece('e', 7, new Pawn(Board, PieceColor.Red));
-			PlacePiece('f', 7, new Pawn(Board, PieceColor.Red));
-			PlacePiece('g', 7, new Pawn(Board, PieceColor.Red));
-			PlacePiece('h', 7, new Pawn(Board, PieceColor.Red));
+			PlacePiece('a', 7, new Pawn(Board, PieceColor.Red, this));
+			PlacePiece('b', 6, new Pawn(Board, PieceColor.Red, this));
+			PlacePiece('c', 7, new Pawn(Board, PieceColor.Red, this));
+			PlacePiece('d', 7, new Pawn(Board, PieceColor.Red, this));
+			PlacePiece('e', 7, new Pawn(Board, PieceColor.Red, this));
+			PlacePiece('f', 7, new Pawn(Board, PieceColor.Red, this));
+			PlacePiece('g', 7, new Pawn(Board, PieceColor.Red, this));
+			PlacePiece('h', 7, new Pawn(Board, PieceColor.Red, this));
 
 		}
 
@@ -101,6 +104,15 @@ namespace XadrezGame.Xadrez
 				Turn++;
 				ChangePlayerColor();
 			}
+
+			//#jogada especial em passant
+			Piece p = Board.GetPiece(destination);
+
+			if (p is Pawn && (destination.Line == origin.Line - 2 || destination.Line == origin.Line + 2))
+				VulnerableEnPassant = p;
+			else 
+				VulnerableEnPassant = null;
+
 
 		}
 
@@ -148,6 +160,21 @@ namespace XadrezGame.Xadrez
 
 			}
 
+			//#jogadaespecial en passant
+			if (piece is Pawn) 
+			{
+				if (destination.Column != origin.Column && capturedPiece == null) 
+				{
+					Position pos = piece.Color == PieceColor.Blue ? 
+						new Position(destination.Line + 1, destination.Column) :
+						new Position(destination.Line - 1, destination.Column);
+
+					capturedPiece = Board.RemovePiece(pos);
+					_capturedPieces.Add(capturedPiece);
+
+				}
+			}
+
 			return capturedPiece;
 
 		}
@@ -187,6 +214,24 @@ namespace XadrezGame.Xadrez
 				Board.SetPieceOnBoard(hook, originHook);
 
 			}
+
+			//#jogadaespecial en passant
+			if (destinationPiece is Pawn)
+			{
+				if (destination.Column != origin.Column && capturedPiece == VulnerableEnPassant)
+				{
+					Piece pawn = Board.RemovePiece(destination);
+					
+					Position p = destinationPiece.Color == PieceColor.Blue ?
+						new Position(3,destination.Column) :
+						new Position(4,destination.Column);
+
+
+					Board.SetPieceOnBoard(pawn, p);
+
+				}
+			}
+
 
 		}
 

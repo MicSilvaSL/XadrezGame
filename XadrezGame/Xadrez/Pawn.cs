@@ -9,14 +9,16 @@ namespace XadrezGame.Xadrez
 {
 	public class Pawn : Piece
 	{
-		public Pawn(Board board, PieceColor color) : base(color, board)
+		private XadrezMatch _match;
+
+		public Pawn(Board board, PieceColor color, XadrezMatch match) : base(color, board)
 		{
+			_match = match;
 		}
 
 		public override string ToString()
 		{
 			return "P";
-			//Cavalo
 		}
 
 		public bool ExistEnemy(Position pos)
@@ -64,6 +66,22 @@ namespace XadrezGame.Xadrez
 					result[p.Line, p.Column] = true;
 				}
 
+				//#jogada especial en passant
+				if (base.PiecePosition.Line == 3) 
+				{
+					Position left = new Position(base.PiecePosition.Line, base.PiecePosition.Column - 1);
+					if (CurrentBoard.IsValidPostion(left ) && ExistEnemy(left) && CurrentBoard.GetPiece(left) == _match.VulnerableEnPassant) 
+					{
+						result[left.Line - 1, left.Column] = true;
+					}
+
+					Position right = new Position(base.PiecePosition.Line, base.PiecePosition.Column + 1);
+					if (CurrentBoard.IsValidPostion(right) && ExistEnemy(right) && CurrentBoard.GetPiece(right) == _match.VulnerableEnPassant)
+					{
+						result[right.Line - 1, right.Column] = true;
+					}
+				}
+
 			}
 			else 
 			{
@@ -90,6 +108,23 @@ namespace XadrezGame.Xadrez
 				{
 					result[p.Line, p.Column] = true;
 				}
+
+				//#jogada especial en passant
+				if (base.PiecePosition.Line == 4)
+				{
+					Position left = new Position(base.PiecePosition.Line, base.PiecePosition.Column - 1);
+					if (CurrentBoard.IsValidPostion(left) && ExistEnemy(left) && CurrentBoard.GetPiece(left) == _match.VulnerableEnPassant)
+					{
+						result[left.Line + 1, left.Column] = true;
+					}
+
+					Position right = new Position(base.PiecePosition.Line, base.PiecePosition.Column + 1);
+					if (CurrentBoard.IsValidPostion(right) && ExistEnemy(right) && CurrentBoard.GetPiece(right) == _match.VulnerableEnPassant)
+					{
+						result[right.Line + 1, right.Column] = true;
+					}
+				}
+
 			}
 
 			return result;
